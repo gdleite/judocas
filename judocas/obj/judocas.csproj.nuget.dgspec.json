@@ -1,0 +1,78 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\leite\\OneDrive\\Área de Trabalho\\Projetos\\Facul\\EngenhariaSoftware\\judocas\\judocas\\judocas.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\leite\\OneDrive\\Área de Trabalho\\Projetos\\Facul\\EngenhariaSoftware\\judocas\\judocas\\judocas.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\leite\\OneDrive\\Área de Trabalho\\Projetos\\Facul\\EngenhariaSoftware\\judocas\\judocas\\judocas.csproj",
+        "projectName": "judocas",
+        "projectPath": "C:\\Users\\leite\\OneDrive\\Área de Trabalho\\Projetos\\Facul\\EngenhariaSoftware\\judocas\\judocas\\judocas.csproj",
+        "packagesPath": "C:\\Users\\leite\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\leite\\OneDrive\\Área de Trabalho\\Projetos\\Facul\\EngenhariaSoftware\\judocas\\judocas\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\leite\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.2.0, )"
+            },
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.1, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "MvcScaffolding": {
+              "target": "Package",
+              "version": "[1.0.9, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
