@@ -29,7 +29,7 @@ create table Professor(
 );
 
 create table Endereco(
-	end_idid int not null auto_increment,
+	end_id int not null auto_increment,
 	end_rua varchar(255),
 	end_bairro varchar(255),
 	end_cidade varchar(255),
