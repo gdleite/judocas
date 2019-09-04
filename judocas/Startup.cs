@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using judocas.Models;
+using judocas.Data;
 
 namespace judocas
 {
@@ -18,7 +21,13 @@ namespace judocas
         {
             Configuration = configuration;
         }
-
+        public Startup(IHostingEnvironment env)
+        {
+            using (var client = new judocasContext(new DbContextOptions<judocasContext>()))
+            {
+                client.Database.EnsureCreated();
+            }
+        }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -31,13 +40,18 @@ namespace judocas
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+   
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<judocasContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

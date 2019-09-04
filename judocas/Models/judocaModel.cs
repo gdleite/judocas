@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,9 @@ namespace judocas.Models
         public string Email { get; set; }
         public string CPF { get; set; }
         public string Observacoes { get; set; }
+        
         public RG RG { get; set; }
+
         public DateTime DataNascimento { get; set; }
     }
 
