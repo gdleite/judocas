@@ -17,5 +17,6 @@ namespace judocas.Models
         string Observacoes { get; set; }
         RG RG { get; set; }
         DateTime DataNascimento { get; set; }
+        Faixa Faixa { get; set; }
     }
 }

@@ -15,13 +15,17 @@ namespace judocas.Data
         }
 
         public DbSet<judocas.Models.Aluno> Alunos { get; set; }
-        public DbSet<judocas.Models.Entidade> Entidades { get; set; }
-        public DbSet<judocas.Models.Professor> Professores { get; set; }
+        public DbSet<judocas.Models.Faixa> Faixas { get; set; }
+        public DbSet<judocas.Models.RG> RG { get; set; }
+        //public DbSet<judocas.Models.Entidade> Entidades { get; set; }
+        //public DbSet<judocas.Models.Professor> Professores { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Aluno>().ToTable("Aluno");
-            modelBuilder.Entity<Entidade>().ToTable("Entidades");
-            modelBuilder.Entity<Professor>().ToTable("Professores");
+            modelBuilder.Entity<Faixa>().ToTable("Faixa");
+            modelBuilder.Entity<RG>().ToTable("RG");
+            //modelBuilder.Entity<Entidade>().ToTable("Entidades");
+            //modelBuilder.Entity<Professor>().ToTable("Professores");
         }
     }
 }
