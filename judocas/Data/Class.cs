@@ -8,10 +8,10 @@ namespace judocas.Data
     {
         public static void Initialize(judocasContext context)
         {
-            context.Database.EnsureCreated();
+            
 
             // look for any students.
-            if (context.Alunos.Any())
+            if (context.Filiados.Any())
             {
                 return;   // db has been seeded
             }

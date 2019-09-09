@@ -23,7 +23,7 @@ namespace judocas
                 try
                 {
                     var context = services.GetRequiredService<Data.judocasContext>();
-                    Data.DbInitializer.Initialize(context);
+                    context.Database.EnsureCreated();
                 }
                 catch (Exception ex)
                 {

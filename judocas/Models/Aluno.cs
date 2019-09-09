@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace judocas.Models
 {
-    public class Filiado
+    public class Aluno
     {
-        public long? IdFiliado { get; set; }
+        public long? Id { get; set; }
         public string Nome { get; set; }
         public string RegistroCbj { get; set; }
         public string Telefone1 { get; set; }
@@ -16,8 +14,9 @@ namespace judocas.Models
         public string CPF { get; set; }
         public string Observacoes { get; set; }
         public RG RG { get; set; }
-        public long IdRG { get; set; }
         public DateTime DataNascimento { get; set; }
-        public List<Faixa> Faixas { get; set; }
+        public Faixa Faixa { get; set; }
+        public Endereco Endereco { get; set; }
+
     }
 }

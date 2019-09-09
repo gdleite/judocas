@@ -10,22 +10,23 @@ using judocas.Models;
 
 namespace judocas.Controllers
 {
-    public class AlunosController : Controller
+    public class FiliadosController : Controller
     {
         private readonly judocasContext _context;
 
-        public AlunosController(judocasContext context)
+        public FiliadosController(judocasContext context)
         {
             _context = context;
         }
 
-        // GET: Alunos
+        // GET: Filiados
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Alunos.ToListAsync());
+            var judocasContext = _context.Filiados.Include(f => f.RG);
+            return View(await judocasContext.ToListAsync());
         }
 
-        // GET: Alunos/Details/5
+        // GET: Filiados/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace judocas.Controllers
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aluno == null)
+            var filiado = await _context.Filiados
+                .Include(f => f.RG)
+                .FirstOrDefaultAsync(m => m.IdFiliado == id);
+            if (filiado == null)
             {
                 return NotFound();
             }
 
-            return View(aluno);
+            return View(filiado);
         }
 
-        // GET: Alunos/Create
+        // GET: Filiados/Create
         public IActionResult Create()
         {
+            ViewData["IdFiliado"] = new SelectList(_context.RG, "IdRG", "IdRG");
             return View();
         }
 
-        // POST: Alunos/Create
+        // POST: Filiados/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Aluno aluno)
+        public async Task<IActionResult> Create([Bind("IdFiliado,Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,IdRG,DataNascimento")] Filiado filiado)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(aluno);
+                _context.Add(filiado);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(aluno);
+            ViewData["IdFiliado"] = new SelectList(_context.RG, "IdRG", "IdRG", filiado.IdFiliado);
+            return View(filiado);
         }
 
-        // GET: Alunos/Edit/5
+        // GET: Filiados/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace judocas.Controllers
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos.FindAsync(id);
-            if (aluno == null)
+            var filiado = await _context.Filiados.FindAsync(id);
+            if (filiado == null)
             {
                 return NotFound();
             }
-            return View(aluno);
+            ViewData["IdFiliado"] = new SelectList(_context.RG, "IdRG", "IdRG", filiado.IdFiliado);
+            return View(filiado);
         }
 
-        // POST: Alunos/Edit/5
+        // POST: Filiados/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Aluno aluno)
+        public async Task<IActionResult> Edit(long? id, [Bind("IdFiliado,Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,IdRG,DataNascimento")] Filiado filiado)
         {
-            if (id != aluno.Id)
+            if (id != filiado.IdFiliado)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace judocas.Controllers
             {
                 try
                 {
-                    _context.Update(aluno);
+                    _context.Update(filiado);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlunoExists(aluno.Id))
+                    if (!FiliadoExists(filiado.IdFiliado))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace judocas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(aluno);
+            ViewData["IdFiliado"] = new SelectList(_context.RG, "IdRG", "IdRG", filiado.IdFiliado);
+            return View(filiado);
         }
 
-        // GET: Alunos/Delete/5
+        // GET: Filiados/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -124,30 +130,31 @@ namespace judocas.Controllers
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aluno == null)
+            var filiado = await _context.Filiados
+                .Include(f => f.RG)
+                .FirstOrDefaultAsync(m => m.IdFiliado == id);
+            if (filiado == null)
             {
                 return NotFound();
             }
 
-            return View(aluno);
+            return View(filiado);
         }
 
-        // POST: Alunos/Delete/5
+        // POST: Filiados/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            var aluno = await _context.Alunos.FindAsync(id);
-            _context.Alunos.Remove(aluno);
+            var filiado = await _context.Filiados.FindAsync(id);
+            _context.Filiados.Remove(filiado);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlunoExists(long id)
+        private bool FiliadoExists(long? id)
         {
-            return _context.Alunos.Any(e => e.Id == id);
+            return _context.Filiados.Any(e => e.IdFiliado == id);
         }
     }
 }

@@ -31,23 +31,11 @@ namespace judocas.Models
             Vermelha9Dan,
             Vermelha10Dan
         }
-        [Required]
-        [ForeignKey("Filiado")]
-        public long IdFiliado;
-        [Key]
-        public long IdFaixa { get; set; }
-        [Display(Name = "Cor da faixa")]
-        public Cores CorFaixa { get; set; }
-        [Display(Name = "Data de entrega")]
+        public long? IdFiliado { get; set; }
+        public long? IdFaixa { get; set; }
         public DateTime DataEntrega { get; set; }
-        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
+        public Filiado Filiado { get; set; }
 
-        public Faixa(Cores corFaixa, DateTime dataEntrega, string descricao)
-        {
-            this.CorFaixa = corFaixa;
-            this.DataEntrega = dataEntrega;
-            this.Descricao = descricao;
-        }
     }
 }

@@ -13,7 +13,6 @@ namespace judocas.Models
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }
-        [Key]
         public string CEP { get; set; }
 
 

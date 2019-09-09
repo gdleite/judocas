@@ -1,4 +1,4 @@
-﻿@model IEnumerable<judocas.Models.Aluno>
+﻿@model IEnumerable<judocas.Models.Filiado>
 
 @{
     ViewData["Title"] = "Index";
@@ -34,6 +34,12 @@
                 @Html.DisplayNameFor(model => model.Observacoes)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.RG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdRG)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DataNascimento)
             </th>
             <th></th>
@@ -64,12 +70,18 @@
                 @Html.DisplayFor(modelItem => item.Observacoes)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.RG.IdRG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRG)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.DataNascimento)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdFiliado">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdFiliado">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdFiliado">Delete</a>
             </td>
         </tr>
 }
