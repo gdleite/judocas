@@ -1,4 +1,4 @@
-﻿@model judocas.Models.Filiado
+﻿@model judocas.Models.Professor
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,7 +8,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Filiado</h4>
+    <h4>Professor</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -54,27 +54,15 @@
             @Html.DisplayFor(model => model.Observacoes)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.RG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RG.Numero)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.DataNascimento)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.DataNascimento)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Endereco)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Endereco.Bairro)
-        </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="IdFiliado" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>
