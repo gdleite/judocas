@@ -58,6 +58,28 @@
         <dd>
             @Html.DisplayFor(model => model.DataNascimento)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Faixa)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Grade</th>
+                </tr>
+                @foreach (var item in Model.Faixa)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descricao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cor)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <div>

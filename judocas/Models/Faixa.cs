@@ -31,11 +31,14 @@ namespace judocas.Models
             Vermelha9Dan,
             Vermelha10Dan
         }
-        public long? IdFiliado { get; set; }
-        public long? IdFaixa { get; set; }
+        public long IdProfessor { get; set; }
+        public long Id { get; set; }
         public DateTime DataEntrega { get; set; }
         public string Descricao { get; set; }
-        public Filiado Filiado { get; set; }
+        public Professor Professor { get; set; }
+
+        [DisplayFormat(NullDisplayText = "Sem faixa")]
+        public Cores? Cor { get; set; }
 
     }
 }

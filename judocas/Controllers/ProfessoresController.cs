@@ -20,9 +20,50 @@ namespace judocas.Controllers
         }
 
         // GET: Professores
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+        string sortOrder,
+        string currentFilter,
+        string searchString,
+        int? pageNumber)
         {
-            return View(await _context.Professores.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
+            var professores = from s in _context.Professores
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                professores = professores.Where(s => s.Nome.Contains(searchString)
+                                       || s.RegistroCbj.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    professores = professores.OrderByDescending(s => s.Nome);
+                    break;
+                case "Date":
+                    professores = professores.OrderBy(s => s.DataNascimento);
+                    break;
+                case "date_desc":
+                    professores = professores.OrderByDescending(s => s.DataNascimento);
+                    break;
+                default:
+                    professores = professores.OrderBy(s => s.Nome);
+                    break;
+            }
+            int pageSize = 10;
+            return View(await PaginatedList<Professor>.CreateAsync(professores.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Professores/Details/5
@@ -34,6 +75,8 @@ namespace judocas.Controllers
             }
 
             var professor = await _context.Professores
+                .Include(s => s.Faixa)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (professor == null)
             {
@@ -54,13 +97,22 @@ namespace judocas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Professor professor)
+        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Professor professor)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(professor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(professor);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException e)
+            {
+                ModelState.AddModelError("", "Não foi possivel salvar. " +
+            "Tente novamente, se o problema persistir" +
+            "procure o administrador do sistema.");
             }
             return View(professor);
         }
@@ -84,70 +136,84 @@ namespace judocas.Controllers
         // POST: Professores/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("Id,Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Professor professor)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != professor.Id)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var professorToUpdate = await _context.Professores.FirstOrDefaultAsync(s => s.Id == id);
+            if (await TryUpdateModelAsync<Professor>(
+                professorToUpdate,
+                "",
+                s => s.Nome, s => s.RegistroCbj, s => s.Telefone1, s => s.Telefone2, s => s.Email, s => s.CPF, s => s.Telefone2, s => s.Observacoes, s => s.DataNascimento))
             {
                 try
                 {
-                    _context.Update(professor);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException /* ex */)
                 {
-                    if (!ProfessorExists(professor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(professor);
+            return View(professorToUpdate);
         }
 
         // GET: Professores/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var professor = await _context.Professores
+            var student = await _context.Professores
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (professor == null)
+            if (student == null)
             {
                 return NotFound();
             }
 
-            return View(professor);
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Delete falhou. Tente denovo, se o problema persistir " +
+                    "contacte o administrador do sistema.";
+            }
+
+            return View(student);
         }
 
         // POST: Professores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long? id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var professor = await _context.Professores.FindAsync(id);
-            _context.Professores.Remove(professor);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            if (professor == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
-        private bool ProfessorExists(long? id)
-        {
-            return _context.Professores.Any(e => e.Id == id);
+            try
+            {
+                _context.Professores.Remove(professor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
+            }
         }
     }
 }

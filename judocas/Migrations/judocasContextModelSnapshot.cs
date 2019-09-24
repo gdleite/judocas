@@ -19,330 +19,64 @@ namespace judocas.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("judocas.Models.Aluno", b =>
+            modelBuilder.Entity("judocas.Models.Faixa", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_ALUNO")
-                        .HasColumnType("BIGINT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnName("CPF")
-                        .HasColumnType("nvarchar(11)");
+                    b.Property<int?>("Cor");
 
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnName("DATA_NASC")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("DataEntrega");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnName("EMAIL")
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("Descricao");
 
-                    b.Property<long?>("EnderecoIdEndereco");
+                    b.Property<long>("IdProfessor");
 
-                    b.Property<long?>("FaixaIdFaixa");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnName("NOME")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Observacoes")
-                        .IsRequired()
-                        .HasColumnName("OBSERVACOES")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<long?>("RGIdRG");
-
-                    b.Property<string>("RegistroCbj")
-                        .IsRequired()
-                        .HasColumnName("REGISTRO_CBJ")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Telefone1")
-                        .IsRequired()
-                        .HasColumnName("TELEFONE_1")
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Telefone2")
-                        .IsRequired()
-                        .HasColumnName("TELEFONE_2")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<long?>("ProfessorId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EnderecoIdEndereco");
-
-                    b.HasIndex("FaixaIdFaixa");
-
-                    b.HasIndex("RGIdRG");
-
-                    b.ToTable("Aluno");
-                });
-
-            modelBuilder.Entity("judocas.Models.Endereco", b =>
-                {
-                    b.Property<long?>("IdEndereco")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Bairro")
-                        .IsRequired()
-                        .HasColumnName("BAIRRO")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CEP")
-                        .IsRequired()
-                        .HasColumnName("CEP")
-                        .HasColumnType("nvarchar(8)");
-
-                    b.Property<string>("Cidade")
-                        .IsRequired()
-                        .HasColumnName("CIDADE")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnName("ESTADO")
-                        .HasColumnType("nvarchar(2)");
-
-                    b.Property<long?>("IdFiliado")
-                        .IsRequired()
-                        .HasColumnName("ID_FILIADO")
-                        .HasColumnType("BIGINT");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnName("NUMERO")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Rua")
-                        .IsRequired()
-                        .HasColumnName("RUA")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("IdEndereco");
-
-                    b.ToTable("ENDERECO");
-                });
-
-            modelBuilder.Entity("judocas.Models.Faixa", b =>
-                {
-                    b.Property<long?>("IdFaixa")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_FAIXA")
-                        .HasColumnType("BIGINT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DataEntrega")
-                        .HasColumnName("DATA_ENTREGA")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnName("DESCRICAO_FAIXA")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<long?>("IdFiliado")
-                        .IsRequired()
-                        .HasColumnName("ID_FILIADO")
-                        .HasColumnType("BIGINT");
-
-                    b.HasKey("IdFaixa");
-
-                    b.HasIndex("IdFiliado");
+                    b.HasIndex("ProfessorId");
 
                     b.ToTable("Faixa");
                 });
 
-            modelBuilder.Entity("judocas.Models.Filiado", b =>
-                {
-                    b.Property<long?>("IdFiliado")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_FILIADO")
-                        .HasColumnType("BIGINT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnName("CPF")
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnName("DATA_NASC")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnName("EMAIL")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnName("NOME")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Observacoes")
-                        .IsRequired()
-                        .HasColumnName("OBSERVACOES")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("RegistroCbj")
-                        .IsRequired()
-                        .HasColumnName("REGISTRO_CBJ")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Telefone1")
-                        .IsRequired()
-                        .HasColumnName("TELEFONE_1")
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Telefone2")
-                        .IsRequired()
-                        .HasColumnName("TELEFONE_2")
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("IdFiliado");
-
-                    b.ToTable("Filiado");
-                });
-
             modelBuilder.Entity("judocas.Models.Professor", b =>
                 {
-                    b.Property<long?>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_PROFESSOR")
-                        .HasColumnType("BIGINT")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnName("CPF")
-                        .HasColumnType("nvarchar(11)");
+                    b.Property<string>("CPF");
 
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnName("DATA_NASC")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("DataNascimento");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnName("EMAIL")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<long?>("FaixaIdFaixa");
+                    b.Property<string>("Email");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnName("NOME")
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(60);
 
-                    b.Property<string>("Observacoes")
-                        .IsRequired()
-                        .HasColumnName("OBSERVACOES")
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<long?>("RGIdRG");
+                    b.Property<string>("Observacoes");
 
                     b.Property<string>("RegistroCbj")
-                        .IsRequired()
-                        .HasColumnName("REGISTRO_CBJ")
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(20);
 
                     b.Property<string>("Telefone1")
-                        .IsRequired()
-                        .HasColumnName("TELEFONE_1")
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(11);
 
-                    b.Property<string>("Telefone2")
-                        .IsRequired()
-                        .HasColumnName("TELEFONE_2")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<string>("Telefone2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FaixaIdFaixa");
-
-                    b.HasIndex("RGIdRG");
 
                     b.ToTable("Professor");
                 });
 
-            modelBuilder.Entity("judocas.Models.RG", b =>
-                {
-                    b.Property<long?>("IdRG")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_RG")
-                        .HasColumnType("BIGINT")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("IdFiliado")
-                        .IsRequired()
-                        .HasColumnName("ID_FILIADO")
-                        .HasColumnType("BIGINT");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnName("NUMERO")
-                        .HasColumnType("nvarchar(7)");
-
-                    b.Property<string>("OrgaoExpedidor")
-                        .IsRequired()
-                        .HasColumnName("ORGAO_EXPEDIDOR")
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("IdRG");
-
-                    b.ToTable("RG");
-                });
-
-            modelBuilder.Entity("judocas.Models.Aluno", b =>
-                {
-                    b.HasOne("judocas.Models.Endereco", "Endereco")
-                        .WithMany()
-                        .HasForeignKey("EnderecoIdEndereco");
-
-                    b.HasOne("judocas.Models.Faixa", "Faixa")
-                        .WithMany()
-                        .HasForeignKey("FaixaIdFaixa");
-
-                    b.HasOne("judocas.Models.RG", "RG")
-                        .WithMany()
-                        .HasForeignKey("RGIdRG");
-                });
-
             modelBuilder.Entity("judocas.Models.Faixa", b =>
                 {
-                    b.HasOne("judocas.Models.Filiado", "Filiado")
-                        .WithMany("Faixas")
-                        .HasForeignKey("IdFiliado")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("judocas.Models.Filiado", b =>
-                {
-                    b.HasOne("judocas.Models.Endereco", "Endereco")
-                        .WithOne("Filiado")
-                        .HasForeignKey("judocas.Models.Filiado", "IdFiliado")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("judocas.Models.RG", "RG")
-                        .WithOne("Filiado")
-                        .HasForeignKey("judocas.Models.Filiado", "IdFiliado")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("judocas.Models.Professor", b =>
-                {
-                    b.HasOne("judocas.Models.Faixa", "Faixa")
-                        .WithMany()
-                        .HasForeignKey("FaixaIdFaixa");
-
-                    b.HasOne("judocas.Models.RG", "RG")
-                        .WithMany()
-                        .HasForeignKey("RGIdRG");
+                    b.HasOne("judocas.Models.Professor", "Professor")
+                        .WithMany("Faixa")
+                        .HasForeignKey("ProfessorId");
                 });
 #pragma warning restore 612, 618
         }
