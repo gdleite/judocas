@@ -56,9 +56,9 @@ namespace judocas.Data
 
             foreach (Faixa e in faixas)
             {
-                var enrollmentInDataBase = context.Faixas.Where(
+                var faixaInDatabase = context.Faixas.Where(
                     s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
-                if (enrollmentInDataBase == null)
+                if (faixaInDatabase == null)
                 {
                     context.Faixas.Add(e);
                 }

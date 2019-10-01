@@ -78,6 +78,9 @@ namespace judocas.Controllers
                 .Include(s => s.Faixa)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            professor.Faixa = _context.Faixas.Where(o => o.IdProfessor == id).Distinct().ToList();
+
             if (professor == null)
             {
                 return NotFound();
