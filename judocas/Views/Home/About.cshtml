@@ -1,7 +1,30 @@
-﻿@{
-    ViewData["Title"] = "About";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@model IEnumerable<judocas.Models.ProfessorGrupo>
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewData["Title"] = "Estatisticas de professores";
+}
+
+<h2>Corpo de professores</h2>
+
+<table>
+    <tr>
+        <th>
+            Data de Nascimento
+        </th>
+        <th>
+            Professores
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNascimento)
+            </td>
+            <td>
+                @item.ContagemProfessores
+            </td>
+        </tr>
+    }
+</table>
