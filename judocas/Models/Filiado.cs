@@ -17,7 +17,7 @@ namespace judocas.Models
         public string Email { get; set; }
         public string CPF { get; set; }
         public string Observacoes { get; set; }
-        public RG RG { get; set; }
+        //public RG RG { get; set; }
         public DateTime DataNascimento { get; set; }
         public List<Faixa> Faixas { get; set; }
         public Endereco Endereco { get; set; }

@@ -44,7 +44,7 @@ namespace judocas.Controllers
                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                professores = professores.Where(s => s.Nome.Contains(searchString)
+                professores = professores.Where(s => s.Nome.ToLower().Contains(searchString.ToLower())
                                        || s.RegistroCbj.Contains(searchString));
             }
             switch (sortOrder)
@@ -76,10 +76,14 @@ namespace judocas.Controllers
 
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
+                    .Include(e => e.RG)
+                     .Include(c => c.RG)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             professor.Faixa = _context.Faixas.Where(o => o.IdProfessor == id).Distinct().ToList();
+            professor.RG = _context.RG.Where(t => t.IdProfessor == id).Distinct().Single();
+            professor.Endereco = _context.Enderecos.Where(t => t.IdProfessor == id).Distinct().Single();
 
             if (professor == null)
             {

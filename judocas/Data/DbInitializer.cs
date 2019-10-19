@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using judocas.Models;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
-using judocas.Models;
 
 namespace judocas.Data
 {
@@ -27,12 +25,23 @@ namespace judocas.Data
                 Telefone1 = "99001100",
                 Telefone2 = "88191902",
                 RegistroCbj = "98212743"
+            },
+            new Professor {
+                Nome = "Alex",
+                CPF = "90909192",
+                Email = "AleqGol@gmail.com",
+                DataNascimento = DateTime.Parse("1998-09-01"),
+                Observacoes = "Medo do escuro",
+                Telefone1 = "88997755",
+                Telefone2 = "89909818",
+                RegistroCbj = "7382919"
             }
 
             };
 
             foreach (Professor p in professores)
             {
+                Console.WriteLine("Professores ja foram adicionados em um outro momento");
                 context.Professores.Add(p);
             }
             context.SaveChanges();
@@ -51,6 +60,12 @@ namespace judocas.Data
                     Cor = Faixa.Cores.Cinza,
                     DataEntrega = DateTime.Parse("2011-04-12"),
                     Descricao = "Conquistada em Teresina"
+                },
+                new Faixa {
+                    IdProfessor = professores.Single(s => s.Nome == "Alex").Id,
+                    Cor = Faixa.Cores.Preta5Dan,
+                    DataEntrega = DateTime.Parse("2004-11-12"),
+                    Descricao = "Conquistada em Alagoas"
                 }
             };
 
@@ -60,11 +75,73 @@ namespace judocas.Data
                     s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
                 if (faixaInDatabase == null)
                 {
+                    Console.WriteLine("Faixas ja foram adicionados em um outro momento");
                     context.Faixas.Add(e);
                 }
             }
             context.SaveChanges();
 
+
+            var RGsProf = new RG[]
+            {
+                new RG {
+                    IdProfessor = professores.Single(s => s.Nome == "Carson").Id,
+                    Numero = "9521655",
+                    OrgaoExpedidor = "SDS"             
+                },
+                new RG {
+                    IdProfessor = professores.Single(s => s.Nome == "Alex").Id,
+                    Numero = "9521655",
+                    OrgaoExpedidor = "SDS"
+                }
+            };
+
+            foreach (RG e in RGsProf)
+            {
+                var RGsInDatabase = context.RG.Where(
+                    s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
+                if (RGsInDatabase == null)
+                {
+                    Console.WriteLine("RGs ja foram adicionados em um outro momento");
+                    context.RG.Add(e);
+                }
             }
+            context.SaveChanges();
+
+
+            var Enderecos = new Endereco[]
+            {
+                new Endereco {
+                    IdProfessor = professores.Single(s => s.Nome == "Carson").Id,
+                    Bairro = "Vila Mariana",
+                    CEP = "04019030",
+                    Cidade = "Sao Paulo",
+                    Estado = "SP",
+                    Rua = "Rua Tangara",
+                    Numero = "33"
+                },
+                new Endereco {
+                    IdProfessor = professores.Single(s => s.Nome == "Alex").Id,
+                    Bairro = "Barra funda",
+                    CEP = "33990012",
+                    Cidade = "Teresina",
+                    Estado = "PI",
+                    Rua = "Rua Palmas",
+                    Numero = "321"
+                }
+            };
+
+            foreach (Endereco e in Enderecos)
+            {
+                var EnderecosinDatabase = context.Enderecos.Where(
+                    s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
+                if (EnderecosinDatabase == null)
+                {
+                    Console.WriteLine("Endereços ja foram adicionados em um outro momento");
+                    context.Enderecos.Add(e);
+                }
+            }
+            context.SaveChanges();
+        }
     }
 }

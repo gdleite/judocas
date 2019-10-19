@@ -6,10 +6,10 @@ namespace judocas.Models
 {
     public class RG
     {
-        public Aluno Aluno { get; set; }
-        [Key]
-        public long AlunoId { get; set; }
+        public long Id { get; set; }
+        public long IdProfessor { get; set; }
         public string Numero { get; set; }
         public string OrgaoExpedidor { get; set; }
+        public Professor Professor { get; set; }
     }
 }
