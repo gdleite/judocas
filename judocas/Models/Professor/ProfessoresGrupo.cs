@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace judocas.Models
+namespace judocas.Models.Professor
 {
     public class ProfessorGrupo
     {

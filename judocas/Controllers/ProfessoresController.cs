@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using judocas.Data;
-using judocas.Models;
+using judocas.Models.Professor;
 
 namespace judocas.Controllers
 {
@@ -81,9 +81,9 @@ namespace judocas.Controllers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            professor.Faixa = _context.Faixas.Where(o => o.IdProfessor == id).Distinct().ToList();
-            professor.RG = _context.RG.Where(t => t.IdProfessor == id).Distinct().Single();
-            professor.Endereco = _context.Enderecos.Where(t => t.IdProfessor == id).Distinct().Single();
+            professor.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
+            professor.RG = _context.RGProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
+            professor.Endereco = _context.EnderecosProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
 
             if (professor == null)
             {

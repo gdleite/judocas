@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace judocas.Models
+namespace judocas.Models.Entidade
 {
     public class Endereco
     {
@@ -16,7 +16,7 @@ namespace judocas.Models
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string CEP { get; set; }
-        public Professor Professor { get; set; }
+        public Entidade Entidade { get; set; }
 
     }
 }

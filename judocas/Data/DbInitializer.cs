@@ -1,4 +1,4 @@
-﻿using judocas.Models;
+﻿using judocas.Models.Professor;
 using System;
 using System.Linq;
 
@@ -71,12 +71,12 @@ namespace judocas.Data
 
             foreach (Faixa e in faixas)
             {
-                var faixaInDatabase = context.Faixas.Where(
+                var faixaInDatabase = context.FaixasProfessores.Where(
                     s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
                 if (faixaInDatabase == null)
                 {
                     Console.WriteLine("Faixas ja foram adicionados em um outro momento");
-                    context.Faixas.Add(e);
+                    context.FaixasProfessores.Add(e);
                 }
             }
             context.SaveChanges();
@@ -98,12 +98,12 @@ namespace judocas.Data
 
             foreach (RG e in RGsProf)
             {
-                var RGsInDatabase = context.RG.Where(
+                var RGsInDatabase = context.RGProfessores.Where(
                     s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
                 if (RGsInDatabase == null)
                 {
                     Console.WriteLine("RGs ja foram adicionados em um outro momento");
-                    context.RG.Add(e);
+                    context.RGProfessores.Add(e);
                 }
             }
             context.SaveChanges();
@@ -133,12 +133,12 @@ namespace judocas.Data
 
             foreach (Endereco e in Enderecos)
             {
-                var EnderecosinDatabase = context.Enderecos.Where(
+                var EnderecosinDatabase = context.EnderecosProfessores.Where(
                     s => s.Professor.Id == e.IdProfessor).SingleOrDefault();
                 if (EnderecosinDatabase == null)
                 {
                     Console.WriteLine("Endereços ja foram adicionados em um outro momento");
-                    context.Enderecos.Add(e);
+                    context.EnderecosProfessores.Add(e);
                 }
             }
             context.SaveChanges();
