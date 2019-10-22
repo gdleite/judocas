@@ -202,7 +202,7 @@ namespace judocas.Controllers
         // POST: Professores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var professor = await _context.Professores.FindAsync(id);
             if (professor == null)
