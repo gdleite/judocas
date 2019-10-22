@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace judocas.Models
+namespace judocas.Models.Professor
 {
     public class RG
     {

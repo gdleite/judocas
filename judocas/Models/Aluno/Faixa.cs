@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace judocas.Models
+namespace judocas.Models.Aluno
 {
 
     public class Faixa
@@ -31,11 +31,11 @@ namespace judocas.Models
             Vermelha9Dan,
             Vermelha10Dan
         }
-        public long IdProfessor { get; set; }
+        public long IdAluno { get; set; }
         public long Id { get; set; }
         public DateTime DataEntrega { get; set; }
         public string Descricao { get; set; }
-        public Professor Professor { get; set; }
+        public Aluno Aluno { get; set; }
 
         [DisplayFormat(NullDisplayText = "Sem faixa")]
         public Cores? Cor { get; set; }

@@ -5,6 +5,7 @@ C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\jud
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\bin\Release\netcoreapp2.2\judocas.pdb
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\bin\Release\netcoreapp2.2\judocas.Views.dll
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\bin\Release\netcoreapp2.2\judocas.Views.pdb
+C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.csprojAssemblyReference.cache
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.csproj.CoreCompileInputs.cache
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.RazorAssemblyInfo.cache
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.RazorAssemblyInfo.cs
@@ -39,4 +40,3 @@ C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\jud
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.dll
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.pdb
 C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.csproj.CopyComplete
-C:\Users\leite\OneDrive\Área de Trabalho\Projetos\Facul\GIT\judocas\judocas\judocas\obj\Release\netcoreapp2.2\judocas.csprojAssemblyReference.cache

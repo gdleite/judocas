@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using judocas.Models.Professor;
 using judocas.Models;
 using Microsoft.EntityFrameworkCore;
 using judocas.Data;
