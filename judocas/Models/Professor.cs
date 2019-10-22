@@ -32,13 +32,12 @@ namespace judocas.Models
         public string CPF { get; set; }
         public string Observacoes { get; set; }
 
-        //public  RG RG { get; set; }
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DataNascimento { get; set; }
-        public  List<Faixa> Faixa { get; set; }
+        public List<Faixa> Faixa { get; set; }
 
-        //public Endereco Endereco { get; set; }
+        public  RG RG { get; set; }
+        public Endereco Endereco { get; set; }
     }
 }
