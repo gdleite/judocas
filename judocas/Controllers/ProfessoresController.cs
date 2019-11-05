@@ -155,7 +155,15 @@ namespace judocas.Controllers
             if (await TryUpdateModelAsync<Professor>(
                 professorToUpdate,
                 "",
-                s => s.Nome, s => s.RegistroCbj, s => s.Telefone1, s => s.Telefone2, s => s.Email, s => s.CPF, s => s.Telefone2, s => s.Observacoes, s => s.DataNascimento))
+                s => s.Nome, 
+                s => s.RegistroCbj, 
+                s => s.Telefone1, 
+                s => s.Telefone2, 
+                s => s.Email,
+                s => s.CPF, 
+                s => s.Telefone2, 
+                s => s.Observacoes, 
+                s => s.DataNascimento))
             {
                 try
                 {

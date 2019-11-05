@@ -80,10 +80,10 @@ namespace judocas.Controllers
                      .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
+                aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
+                aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+                aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
 
-            aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
-            aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-            aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
 
             if (aluno == null)
             {
@@ -104,7 +104,7 @@ namespace judocas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Aluno aluno)
+        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento,RG,Endereco")] Aluno aluno)
         {
             try
             {
@@ -132,7 +132,17 @@ namespace judocas.Controllers
                 return NotFound();
             }
 
-            var aluno = await _context.Alunos.FindAsync(id);
+            var aluno = await _context.Alunos
+               .Include(s => s.Faixa)
+                   .Include(e => e.RG)
+                    .Include(c => c.Endereco)
+               .AsNoTracking()
+               .FirstOrDefaultAsync(m => m.Id == id);
+
+                aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
+                aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+                aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+            
             if (aluno == null)
             {
                 return NotFound();
@@ -143,7 +153,7 @@ namespace judocas.Controllers
         // POST: Alunos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int? id)
         {
@@ -151,12 +161,37 @@ namespace judocas.Controllers
             {
                 return NotFound();
             }
-            var alunoToUpdate = await _context.Alunos.FirstOrDefaultAsync(s => s.Id == id);
-            if (await TryUpdateModelAsync<Aluno>(
+            Aluno alunoToUpdate = await _context.Alunos.FirstOrDefaultAsync(s => s.Id == id);
+            var rgToUpdate = await _context.RGAlunos.FirstOrDefaultAsync(s => s.IdAluno == id);
+            var enderecoToUpdate = await _context.EnderecosAlunos.FirstOrDefaultAsync(s => s.IdAluno == id);
+                    if (await TryUpdateModelAsync<Aluno>(
                 alunoToUpdate,
                 "",
-                s => s.Nome, s => s.RegistroCbj, s => s.Telefone1, s => s.Telefone2, s => s.Email, s => s.CPF, s => s.Telefone2, s => s.Observacoes, s => s.DataNascimento))
-            {
+                s => s.Nome,
+                s => s.RegistroCbj,
+                s => s.Telefone1,
+                s => s.Telefone2,
+                s => s.Email,
+                s => s.CPF,
+                s => s.Telefone2,
+                s => s.Observacoes,
+                s => s.DataNascimento
+                ))
+                if (await TryUpdateModelAsync(rgToUpdate,
+                "",
+                s => s.OrgaoExpedidor,
+                s => s.Numero
+                ))
+                    if (await TryUpdateModelAsync(enderecoToUpdate,
+                    "",
+                    s => s.Estado,
+                    s => s.Cidade,
+                    s => s.CEP,
+                    s => s.Rua,
+                    s => s.Numero,
+                    s => s.Bairro
+                    ))
+                {
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -182,8 +217,21 @@ namespace judocas.Controllers
             }
 
             var aluno = await _context.Alunos
+                .Include(s => s.Faixa)
+                    .Include(e => e.RG)
+                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
+            try
+            {
+                aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
+                aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+                aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             if (aluno == null)
             {
                 return NotFound();
