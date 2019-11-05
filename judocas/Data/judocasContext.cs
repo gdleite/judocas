@@ -29,6 +29,7 @@ namespace judocas.Data
         //public DbSet<judocas.Models.Entidade> Entidades { get; set; }    
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Professores
             modelBuilder.Entity<Professor>().ToTable("Professor");
             modelBuilder.Entity<Models.Professor.Faixa>().ToTable("Faixa");
             modelBuilder.Entity<Models.Professor.RG>().ToTable("RG");
