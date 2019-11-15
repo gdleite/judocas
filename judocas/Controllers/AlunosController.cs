@@ -84,7 +84,6 @@ namespace judocas.Controllers
                 aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
                 aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
 
-
             if (aluno == null)
             {
                 return NotFound();
@@ -222,16 +221,11 @@ namespace judocas.Controllers
                      .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
-            try
-            {
-                aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
-                aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-                aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+
+            aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
+            aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+            aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
+
             if (aluno == null)
             {
                 return NotFound();

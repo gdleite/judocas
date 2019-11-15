@@ -104,7 +104,7 @@ namespace judocas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento")] Professor professor)
+        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento,RG,Endereco")] Professor professor)
         {
             try
             {
@@ -131,8 +131,17 @@ namespace judocas.Controllers
             {
                 return NotFound();
             }
+            var professor = await _context.Professores
+                .Include(s => s.Faixa)
+                    .Include(e => e.RG)
+                     .Include(c => c.RG)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            var professor = await _context.Professores.FindAsync(id);
+            professor.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
+            professor.RG = _context.RGProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
+            professor.Endereco = _context.EnderecosProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
+
             if (professor == null)
             {
                 return NotFound();
@@ -189,10 +198,18 @@ namespace judocas.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Professores
+            var professor = await _context.Professores
+                .Include(s => s.Faixa)
+                    .Include(e => e.RG)
+                     .Include(c => c.RG)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+
+            professor.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
+            professor.RG = _context.RGProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
+            professor.Endereco = _context.EnderecosProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
+
+            if (professor == null)
             {
                 return NotFound();
             }
@@ -204,7 +221,7 @@ namespace judocas.Controllers
                     "contacte o administrador do sistema.";
             }
 
-            return View(student);
+            return View(professor);
         }
 
         // POST: Professores/Delete/5
