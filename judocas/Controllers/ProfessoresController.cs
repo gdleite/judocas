@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using judocas.Data;
 using judocas.Models.Professor;
@@ -41,7 +40,7 @@ namespace judocas.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var professores = from s in _context.Professores
-                           select s;
+                              select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 professores = professores.Where(s => s.Nome.ToLower().Contains(searchString.ToLower())
@@ -62,8 +61,7 @@ namespace judocas.Controllers
                     professores = professores.OrderBy(s => s.Nome);
                     break;
             }
-            int pageSize = 10;
-            return View(await PaginatedList<Professor>.CreateAsync(professores.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return base.View(await PaginatedList<Professor>.CreateAsync(professores.AsNoTracking(), pageNumber ?? 1, 10));
         }
 
         // GET: Professores/Details/5
@@ -77,7 +75,7 @@ namespace judocas.Controllers
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
                     .Include(e => e.RG)
-                     .Include(c => c.RG)
+                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -134,7 +132,7 @@ namespace judocas.Controllers
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
                     .Include(e => e.RG)
-                     .Include(c => c.RG)
+                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -164,14 +162,14 @@ namespace judocas.Controllers
             if (await TryUpdateModelAsync<Professor>(
                 professorToUpdate,
                 "",
-                s => s.Nome, 
-                s => s.RegistroCbj, 
-                s => s.Telefone1, 
-                s => s.Telefone2, 
+                s => s.Nome,
+                s => s.RegistroCbj,
+                s => s.Telefone1,
+                s => s.Telefone2,
                 s => s.Email,
-                s => s.CPF, 
-                s => s.Telefone2, 
-                s => s.Observacoes, 
+                s => s.CPF,
+                s => s.Telefone2,
+                s => s.Observacoes,
                 s => s.DataNascimento))
             {
                 try
@@ -201,7 +199,7 @@ namespace judocas.Controllers
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
                     .Include(e => e.RG)
-                     .Include(c => c.RG)
+                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 

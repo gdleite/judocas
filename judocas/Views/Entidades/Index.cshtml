@@ -1,0 +1,81 @@
+﻿@model judocas.Models.Relacao.ProfessorIndexData
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Buscar por nome: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Voltar a lista completa</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                CNPJ
+            </th>
+            <th>
+                Telefone 1
+            </th>
+            <th>
+                Telefone 2
+            </th>
+            <th>
+                Professores
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Entidades)
+        {
+            string selectedRow = "";
+            if (item.Id == (int?)ViewData["EntidadesId"])
+            {
+                selectedRow = "success";
+            }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNPJ)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefone1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefone2)
+            </td>
+            <td>
+                @{
+                    foreach (var professor in item.ProfessorEntidade)
+                    {
+                         <a href="@Url.Action("Index", "Professores/Details/" + (professor.Professor.Id).ToString())" class="elements"><span>• @professor.Professor.Nome</span></a>
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}

@@ -37,7 +37,7 @@ namespace judocas.Models.Professor
         public DateTime DataNascimento { get; set; }
         public List<Faixa> Faixa { get; set; }
 
-        public  RG RG { get; set; }
+        public RG RG { get; set; }
         public Endereco Endereco { get; set; }
     }
 }

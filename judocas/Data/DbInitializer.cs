@@ -7,7 +7,8 @@ namespace judocas.Data
     public static class DbInitializer
     {
 
-        public static void Initialize(judocasContext context){
+        public static void Initialize(judocasContext context)
+        {
 
             if (context.Professores.Any())
             {
@@ -87,7 +88,7 @@ namespace judocas.Data
                 new RG {
                     IdProfessor = professores.Single(s => s.Nome == "Carson").Id,
                     Numero = "9521655",
-                    OrgaoExpedidor = "SDS"             
+                    OrgaoExpedidor = "SDS"
                 },
                 new RG {
                     IdProfessor = professores.Single(s => s.Nome == "Alex").Id,

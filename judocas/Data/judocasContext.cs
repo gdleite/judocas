@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using judocas.Models.Professor;
 using judocas.Models.Aluno;
+using judocas.Models.Entidade;
 
 namespace judocas.Data
 {
     public class judocasContext : DbContext
     {
-        public judocasContext (DbContextOptions<judocasContext> options)
+        public judocasContext(DbContextOptions<judocasContext> options)
             : base(options)
         {
         }
-        //public DbSet<judocas.Models.Aluno> Alunos { get; set; }
-        //public DbSet<judocas.Models.Filiado> Filiados { get; set; }
+        // Professores
         public DbSet<judocas.Models.Professor.Professor> Professores { get; set; }
         public DbSet<judocas.Models.Professor.Faixa> FaixasProfessores { get; set; }
         public DbSet<judocas.Models.Professor.RG> RGProfessores { get; set; }
@@ -26,7 +22,13 @@ namespace judocas.Data
         public DbSet<judocas.Models.Aluno.Faixa> FaixasAlunos { get; set; }
         public DbSet<judocas.Models.Aluno.RG> RGAlunos { get; set; }
         public DbSet<judocas.Models.Aluno.Endereco> EnderecosAlunos { get; set; }
-        //public DbSet<judocas.Models.Entidade> Entidades { get; set; }    
+
+        // Entidade
+        public DbSet<judocas.Models.Entidade.Entidade> Entidades { get; set; }
+
+        // Relacao
+        public DbSet<judocas.Models.Relacao.ProfessorEntidade> ProfessoresEntidade { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Professores
@@ -62,6 +64,14 @@ namespace judocas.Data
             .HasOne(a => a.Endereco)
             .WithOne(a => a.Aluno)
             .HasForeignKey<Models.Aluno.Endereco>(c => c.IdAluno);
+
+            //Entidade
+            modelBuilder.Entity<Entidade>().ToTable("Entidade");
+            modelBuilder.Entity<Models.Relacao.ProfessorEntidade>().ToTable("ProfessorEntidade");
+
+            //Ajustes banco de dados
+            modelBuilder.Entity<Models.Relacao.ProfessorEntidade>()
+                .HasKey(c => new { c.EntidadeID, c.ProfessorID });
         }
     }
 }

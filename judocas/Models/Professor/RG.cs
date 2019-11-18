@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-
-namespace judocas.Models.Professor
+﻿namespace judocas.Models.Professor
 {
     public class RG
     {
