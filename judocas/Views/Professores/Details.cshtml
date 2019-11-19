@@ -23,6 +23,12 @@
             @Html.DisplayFor(model => model.RegistroCbj)
         </dd>
         <dt>
+            Vencimento CBJ
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataVencimentoCBJ) <a asp-action="Renew" asp-route-id="@Model.Id">Renovar</a>
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Telefone1)
         </dt>
         <dd>
@@ -62,13 +68,13 @@
             Número RG
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.RG.Numero)
+            @Html.DisplayFor(model => model.Numero)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.RG.OrgaoExpedidor)
+            @Html.DisplayNameFor(model => model.OrgaoExpedidor)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.RG.OrgaoExpedidor)
+            @Html.DisplayFor(model => model.OrgaoExpedidor)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Faixa)
@@ -96,7 +102,7 @@
             .
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Endereco)
+            Endereço
         </dt>
         <dd class="col-sm-10">
             <table class="table">
@@ -109,19 +115,19 @@
                 </tr>
                 <tr>
                     <td>
-                        @Html.DisplayFor(model => model.Endereco.Estado)
+                        @Html.DisplayFor(model => model.Estado)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => model.Endereco.Cidade)
+                        @Html.DisplayFor(model => model.Cidade)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => model.Endereco.Rua)
+                        @Html.DisplayFor(model => model.Rua)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => model.Endereco.CEP)
+                        @Html.DisplayFor(model => model.CEP)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => model.Endereco.Numero)
+                        @Html.DisplayFor(model => model.NumeroResidencia)
                     </td>
                 </tr>
             </table>

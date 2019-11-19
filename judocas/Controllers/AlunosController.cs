@@ -76,15 +76,10 @@ namespace judocas.Controllers
 
             var aluno = await _context.Alunos
                 .Include(s => s.Faixa)
-                    .Include(e => e.RG)
-                     .Include(c => c.Endereco)
-                     .Include(d => d.Faixa)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
-            aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-            aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
 
             if (aluno == null)
             {
@@ -105,7 +100,7 @@ namespace judocas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento,RG,Endereco")] Aluno aluno)
+        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,DataVencimentoCBJ,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento,Numero,OrgaoExpedidor,Rua,NumeroResidencia,Bairro,Cidade,Estado,CEP,Faixa")] Aluno aluno)
         {
             try
             {
@@ -135,14 +130,10 @@ namespace judocas.Controllers
 
             var aluno = await _context.Alunos
                .Include(s => s.Faixa)
-                   .Include(e => e.RG)
-                    .Include(c => c.Endereco)
                .AsNoTracking()
                .FirstOrDefaultAsync(m => m.Id == id);
 
             aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
-            aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-            aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
 
             if (aluno == null)
             {
@@ -166,6 +157,7 @@ namespace judocas.Controllers
             if (await TryUpdateModelAsync(alunoToUpdate, "",
             s => s.Nome,
             s => s.RegistroCbj,
+            s => s.DataVencimentoCBJ,
             s => s.Telefone1,
             s => s.Telefone2,
             s => s.Email,
@@ -173,9 +165,14 @@ namespace judocas.Controllers
             s => s.Telefone2,
             s => s.Observacoes,
             s => s.DataNascimento,
-            s => s.Endereco,
-            s => s.RG,
-            s => s.Faixa
+            s => s.Numero,
+            s => s.OrgaoExpedidor,
+            s => s.Rua,
+            s => s.NumeroResidencia,
+            s => s.Bairro,
+            s => s.Cidade,
+            s => s.Estado,
+            s => s.CEP
             ))
             {
                 try
@@ -204,15 +201,11 @@ namespace judocas.Controllers
 
             var aluno = await _context.Alunos
                 .Include(s => s.Faixa)
-                    .Include(e => e.RG)
-                     .Include(c => c.Endereco)
                      .Include(d => d.Faixa)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
-            aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-            aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
 
             if (aluno == null)
             {
@@ -228,8 +221,6 @@ namespace judocas.Controllers
 
             return View(aluno);
         }
-
-
 
 
         // POST: Alunos/Delete/5
@@ -263,16 +254,12 @@ namespace judocas.Controllers
             
             Aluno aluno = await _context.Alunos
                 .Include(s => s.Faixa)
-                    .Include(e => e.RG)
-                     .Include(c => c.Endereco)
                      .Include(d => d.Faixa)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (_context.Professores.Single(s => s.RegistroCbj == aluno.RegistroCbj) != null) return View(aluno);
+
 
             aluno.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
-            aluno.RG = _context.RGAlunos.Where(t => t.IdAluno == id).Distinct().Single();
-            aluno.Endereco = _context.EnderecosAlunos.Where(t => t.IdAluno == id).Distinct().Single();
             
             Professor professor;
             if (aluno == null)
@@ -291,7 +278,16 @@ namespace judocas.Controllers
                     Observacoes = aluno.Observacoes,
                     Telefone1 = aluno.Telefone1,
                     Telefone2 = aluno.Telefone2,
-                    RegistroCbj = aluno.RegistroCbj
+                    RegistroCbj = aluno.RegistroCbj,
+                    DataVencimentoCBJ = aluno.DataVencimentoCBJ,
+                    Numero = aluno.Numero,
+                    OrgaoExpedidor = aluno.OrgaoExpedidor,
+                    Bairro = aluno.Bairro,
+                    CEP = aluno.CEP,
+                    Cidade = aluno.Cidade,
+                    Estado = aluno.Estado,
+                    Rua = aluno.Rua,
+                    NumeroResidencia = aluno.NumeroResidencia
                 };
                 _context.Professores.Add(professor);
                 _context.SaveChanges();
@@ -322,48 +318,47 @@ namespace judocas.Controllers
                     }
                 }
                 await _context.SaveChangesAsync();
-
-                // Replicando RG
-                var rgProf = new Models.Professor.RG
-                {
-                    IdProfessor = _context.Professores.Single(s => s.Nome == aluno.Nome).Id,
-                    Numero = aluno.RG.Numero,
-                    OrgaoExpedidor = aluno.RG.OrgaoExpedidor
-                };
-                var rgsInDatabase = _context.RGProfessores.Where(
-                   s => s.Professor.Id == rgProf.IdProfessor).SingleOrDefault();
-                if (rgsInDatabase == null)
-                {
-
-                    _context.RGProfessores.Add(rgProf);
-                }
-                _context.SaveChanges();
-
-                // Replicando Endereco
-                var enderecoProf = new Models.Professor.Endereco
-                {
-                    IdProfessor = _context.Professores.Single(s => s.Nome == aluno.Nome).Id,
-                    Numero = aluno.Endereco.Numero,
-                    Bairro = aluno.Endereco.Bairro,
-                    CEP = aluno.Endereco.CEP,
-                    Rua = aluno.Endereco.Rua,
-                    Cidade = aluno.Endereco.Cidade,
-                    Estado = aluno.Endereco.Estado
-                };
-                var enderecosInDatabase = _context.EnderecosProfessores.Where(
-                   s => s.Professor.Id == enderecoProf.IdProfessor).SingleOrDefault();
-                if (enderecosInDatabase == null)
-                {
-                    _context.EnderecosProfessores.Add(enderecoProf);
-                }
-                _context.SaveChanges();
             }
             catch (DbUpdateException /* ex */)
             {
                 //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
             }
-            return View(professor);
+            return View(aluno);
+        }
+
+        public async Task<IActionResult> Renew(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var alunoToUpdate = await _context.Alunos.FirstOrDefaultAsync(s => s.Id == id);
+
+            alunoToUpdate.Faixa = _context.FaixasAlunos.Where(o => o.IdAluno == id).Distinct().ToList();
+
+            if (alunoToUpdate != null)
+            {
+                alunoToUpdate.DataVencimentoCBJ = DateTime.Now.AddYears(1);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return View(alunoToUpdate);
         }
     }
 }

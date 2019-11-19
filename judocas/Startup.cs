@@ -41,7 +41,6 @@ namespace judocas
             services.AddDbContext<JudocasContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.BuildServiceProvider().GetService<judocasContext>().Database.Migrate();
 
         }
 

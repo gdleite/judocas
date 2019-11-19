@@ -35,9 +35,18 @@ namespace judocas.Models.Professor
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DataNascimento { get; set; }
-        public List<Faixa> Faixa { get; set; }
 
-        public RG RG { get; set; }
-        public Endereco Endereco { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DataVencimentoCBJ { get; set; }
+        public string Rua { get; set; }
+        public string NumeroResidencia { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
+        public string Estado { get; set; }
+        public string CEP { get; set; }
+        public string Numero { get; set; }
+        public string OrgaoExpedidor { get; set; }
+        public List<Faixa> Faixa { get; set; }
     }
 }

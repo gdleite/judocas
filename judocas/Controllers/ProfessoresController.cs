@@ -73,14 +73,10 @@ namespace judocas.Controllers
 
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
-                    .Include(e => e.RG)
-                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             professor.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
-            professor.RG = _context.RGProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
-            professor.Endereco = _context.EnderecosProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
 
             if (professor == null)
             {
@@ -101,7 +97,7 @@ namespace judocas.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento,RG,Endereco")] Professor professor)
+        public async Task<IActionResult> Create([Bind("Nome,RegistroCbj,DataVencimentoCBJ,Telefone1,Telefone2,Email,CPF,Observacoes,DataNascimento,Numero,OrgaoExpedidor,Rua,NumeroResidencia,Bairro,Cidade,Estado,CEP,Faixa")] Professor professor)
         {
             try
             {
@@ -130,14 +126,10 @@ namespace judocas.Controllers
             }
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
-                    .Include(e => e.RG)
-                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             professor.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
-            professor.RG = _context.RGProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
-            professor.Endereco = _context.EnderecosProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
 
             if (professor == null)
             {
@@ -163,6 +155,7 @@ namespace judocas.Controllers
                 "",
                 s => s.Nome,
                 s => s.RegistroCbj,
+                s => s.DataVencimentoCBJ,
                 s => s.Telefone1,
                 s => s.Telefone2,
                 s => s.Email,
@@ -170,10 +163,14 @@ namespace judocas.Controllers
                 s => s.Telefone2,
                 s => s.Observacoes,
                 s => s.DataNascimento,
-                s => s.Endereco,
-                s => s.RG,
-                s => s.Faixa
-                ))
+                s => s.Numero,
+                s => s.OrgaoExpedidor,
+                s => s.Rua,
+                s => s.NumeroResidencia,
+                s => s.Bairro,
+                s => s.Cidade,
+                s => s.Estado,
+                s => s.CEP))
             {
                 try
                 {
@@ -201,15 +198,10 @@ namespace judocas.Controllers
 
             var professor = await _context.Professores
                 .Include(s => s.Faixa)
-                    .Include(e => e.RG)
-                     .Include(c => c.Endereco)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             professor.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
-            professor.RG = _context.RGProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
-            professor.Endereco = _context.EnderecosProfessores.Where(t => t.IdProfessor == id).Distinct().Single();
-
             if (professor == null)
             {
                 return NotFound();
@@ -247,6 +239,40 @@ namespace judocas.Controllers
                 //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
             }
+        }
+
+        public async Task<IActionResult> Renew(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var professorToUpdate = await _context.Professores.FirstOrDefaultAsync(s => s.Id == id);
+
+            professorToUpdate.Faixa = _context.FaixasProfessores.Where(o => o.IdProfessor == id).Distinct().ToList();
+
+            if (professorToUpdate != null)
+            {
+                professorToUpdate.DataVencimentoCBJ = DateTime.Now.AddYears(1);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return View(professorToUpdate);
         }
     }
 }
