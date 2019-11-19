@@ -1,5 +1,3 @@
-using System;
-
 namespace judocas.Models
 {
     public class ErrorViewModel

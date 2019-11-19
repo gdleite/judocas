@@ -18,7 +18,7 @@ namespace judocas
         }
         public Startup(IHostingEnvironment env)
         {
-            using (var client = new judocasContext(new DbContextOptions<judocasContext>()))
+            using (var client = new JudocasContext(new DbContextOptions<JudocasContext>()))
             {
                 client.Database.EnsureCreated();
             }
@@ -35,13 +35,12 @@ namespace judocas
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-   
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<judocasContext>(options =>
+            services.AddDbContext<JudocasContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.BuildServiceProvider().GetService<judocasContext>().Database.Migrate();
 
         }
 

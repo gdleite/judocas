@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +9,12 @@ using judocas.Data;
 
 namespace judocas.Controllers
 {
-    
+
 
     public class HomeController : Controller
     {
-        private readonly judocasContext _context;
-        public HomeController(judocasContext context)
+        private readonly JudocasContext _context;
+        public HomeController(JudocasContext context)
         {
             _context = context;
         }
