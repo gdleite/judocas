@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using judocas.Data;
 using judocas.Models.Entidade;
 using judocas.Models.Relacao;
+using System;
 
 namespace judocas.Controllers
 {
@@ -19,13 +20,25 @@ namespace judocas.Controllers
         }
 
         // GET: Entidades
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? id, string searchString)
         {
             var viewModel = new ProfessorIndexData();
-            viewModel.Entidades = await _context.Entidades
-                  .Include(i => i.ProfessorEntidade)
-                  .ThenInclude(i => i.Professor)
-                  .ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                viewModel.Entidades = await _context.Entidades
+                        .Where(s => s.Nome.ToLower().Contains(searchString.ToLower()))
+                      .Include(i => i.ProfessorEntidade)
+                      .ThenInclude(i => i.Professor)
+                      .ToListAsync();
+            }
+            else
+            {
+                viewModel.Entidades = await _context.Entidades
+                      .Include(i => i.ProfessorEntidade)
+                      .ThenInclude(i => i.Professor)
+                      .ToListAsync();
+            }
 
             if (id != null)
             {
