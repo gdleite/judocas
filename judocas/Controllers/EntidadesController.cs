@@ -12,9 +12,9 @@ namespace judocas.Controllers
 {
     public class EntidadesController : Controller
     {
-        private readonly judocasContext _context;
+        private readonly JudocasContext _context;
 
-        public EntidadesController(judocasContext context)
+        public EntidadesController(JudocasContext context)
         {
             _context = context;
         }
@@ -43,8 +43,8 @@ namespace judocas.Controllers
             if (id != null)
             {
                 ViewData["EntidadeID"] = id.Value;
-                Entidade entidade = viewModel.Entidades.Where(
-                    i => i.Id == id.Value).Single();
+                Entidade entidade = viewModel.Entidades.Single(
+                    i => i.Id == id.Value);
                 viewModel.Professores = entidade.ProfessorEntidade.Select(s => s.Professor);
             }
 

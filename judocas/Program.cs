@@ -18,7 +18,7 @@ namespace judocas
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<Data.judocasContext>();
+                    var context = services.GetRequiredService<Data.JudocasContext>();
                     context.Database.EnsureCreated();
                     DbInitializer.Initialize(context);
                 }

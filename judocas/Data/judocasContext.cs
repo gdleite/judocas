@@ -5,9 +5,9 @@ using judocas.Models.Entidade;
 
 namespace judocas.Data
 {
-    public class judocasContext : DbContext
+    public class JudocasContext : DbContext
     {
-        public judocasContext(DbContextOptions<judocasContext> options)
+        public JudocasContext(DbContextOptions<JudocasContext> options)
             : base(options)
         {
         }

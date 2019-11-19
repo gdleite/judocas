@@ -7,7 +7,7 @@ namespace judocas.Data
     public static class DbInitializer
     {
 
-        public static void Initialize(judocasContext context)
+        public static void Initialize(JudocasContext context)
         {
 
             if (context.Professores.Any())

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +10,9 @@ namespace judocas.Controllers
 {
     public class ProfessoresController : Controller
     {
-        private readonly judocasContext _context;
+        private readonly JudocasContext _context;
 
-        public ProfessoresController(judocasContext context)
+        public ProfessoresController(JudocasContext context)
         {
             _context = context;
         }
@@ -113,7 +112,7 @@ namespace judocas.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            catch (DbUpdateException e)
+            catch (DbUpdateException)
             {
                 ModelState.AddModelError("", "Não foi possivel salvar. " +
             "Tente novamente, se o problema persistir" +
@@ -170,7 +169,11 @@ namespace judocas.Controllers
                 s => s.CPF,
                 s => s.Telefone2,
                 s => s.Observacoes,
-                s => s.DataNascimento))
+                s => s.DataNascimento,
+                s => s.Endereco,
+                s => s.RG,
+                s => s.Faixa
+                ))
             {
                 try
                 {
