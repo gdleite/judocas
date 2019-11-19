@@ -171,22 +171,10 @@ namespace judocas.Controllers
             s => s.CPF,
             s => s.Telefone2,
             s => s.Observacoes,
-            s => s.DataNascimento
+            s => s.DataNascimento,
+            s => s.Endereco,
+            s => s.RG
             ))
-                if (await TryUpdateModelAsync(rgToUpdate,
-                "",
-                s => s.OrgaoExpedidor,
-                s => s.Numero
-                ))
-                    if (await TryUpdateModelAsync(enderecoToUpdate,
-                    "",
-                    s => s.Estado,
-                    s => s.Cidade,
-                    s => s.CEP,
-                    s => s.Rua,
-                    s => s.Numero,
-                    s => s.Bairro
-                    ))
                     {
                         try
                         {
